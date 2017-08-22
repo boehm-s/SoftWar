@@ -1,7 +1,8 @@
 CC	=	gcc
 NAME	=	SoftWar
 
-SRC	=	main.c
+SRC	=	main.c	\
+		parse_arg.c
 
 OBJ	=	$(SRC:%.c=%.o)
 
