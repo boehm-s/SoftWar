@@ -1,3 +1,5 @@
+#include <argp.h>
+
 struct	arguments {
   char	**args;
   int	verbose;
