@@ -6,6 +6,7 @@
 
 ```
 wget https://github.com/HardySimpson/zlog/archive/latest-stable.zip
+unzip latest-stable.zip
 cd zlog-latest-stable/
 make
 sudo make install

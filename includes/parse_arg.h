@@ -1,3 +1,5 @@
+#include <argp.h>
+
 struct	arguments {
   char	**args;
   int	verbose;
@@ -8,4 +10,4 @@ struct	arguments {
   char	*log_file;
 };
 
-static error_t parse_opt (int key, char *arg, struct argp_state *state);
+struct argp	get_argp();
