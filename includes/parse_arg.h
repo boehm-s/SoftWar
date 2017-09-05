@@ -1,3 +1,6 @@
+#ifndef _PARSE_ARG_
+#define _PARSE_ARG_
+
 #include <argp.h>
 
 struct	arguments {
@@ -11,3 +14,5 @@ struct	arguments {
 };
 
 struct argp	get_argp();
+
+#endif /* !_PARSE_ARG_ */
