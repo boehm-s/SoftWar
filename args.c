@@ -41,7 +41,7 @@ static struct argp_option options[] = {
   {"pub-port",	'p', "pub_port",	OPTION_ARG_OPTIONAL, "port used to send notifications to the clients",				1},
   {"cycle",	'c', "cycle_ms",	OPTION_ARG_OPTIONAL, "number of microseconds (ms) of a cycle lifetime",				2},
   {"verbose",	'v', 0,			OPTION_ARG_OPTIONAL, "Produce verbose output",							3},
-  {"log",	'l', 0,			OPTION_ARG_OPTIONAL, "Specify a log file",							4},
+  {"log",	'l', "log_file",        OPTION_ARG_OPTIONAL, "Specify a log file",							4},
   {"size",	's', "map_size",	OPTION_ARG_OPTIONAL, "Specify the size of the map",						5},
   {0}
 };
@@ -49,7 +49,7 @@ static struct argp_option options[] = {
 
 struct argp		get_argp() {
   static char args_doc[] = "";
-  static char doc[] = "SoftWar - Usage : ./SoftWar -v --size=8 --log=/tmp/soft_war.log --cycle=1000000 --rep-port=4242 --pub-port=4243";
+  static char doc[] = "SoftWar - Usage : ./SoftWar -v --size=8 --log=/tmp/soft_war.log --cycle=1000000 --rep-port=515 --pub-port=1921";
   static struct argp_child children[] = {{0}};
   static struct argp argp = {options, parse_opt, args_doc, doc, children, 0, 0};
 
