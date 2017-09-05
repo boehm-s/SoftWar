@@ -45,7 +45,7 @@ int		        main(int argc, char *argv[]) {
   if (arguments.verbose)
     fprintf (outstream, "%s\n", "coucou test\nHaha ha hahaha hahahahahahah\nNon, ce n'est pas moi !");
 
-  printf("\nArguments {\n  rep_port: %i,\n  pub_port: %i,\n  cycle_ms: %i,\n  map_size: %i\n}\n", arguments.cycle_ms, arguments.pub_port, arguments.rep_port, arguments.map_size);
+  printf("\nArguments {\n  rep_port: %i,\n  pub_port: %i,\n  cycle_ms: %i,\n  map_size: %i,\n  log_file: %s,\n  verbose: %i\n}\n", arguments.cycle_ms, arguments.pub_port, arguments.rep_port, arguments.map_size, arguments.log_file, arguments.verbose);
 
   return (0);
 }
