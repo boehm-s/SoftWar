@@ -1,7 +1,7 @@
 CC	=	gcc
 NAME	=	SoftWar
 
-SRC	=	args.c	\
+SRC	=	init.c	\
 		main.c
 
 OBJ	=	$(SRC:%.c=%.o)
@@ -31,6 +31,6 @@ fclean	:	clean
 re	:	fclean all
 
 run	:
-		./SoftWar
+		./SoftWar -v --size=8 --log=/tmp/soft_war.log --cycle=1000000 --rep-port=515 --pub-port=1921
 
 .PHONY	:	all clean fclean re run
