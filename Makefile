@@ -10,7 +10,7 @@ RM	=	rm -Rf
 
 GCFLAGS  =	gcc -W -Wall -Werror -Wextra -ansi -pedantic
 
-LDFLAGS =	-lzlog
+LDFLAGS =	-lzlog -lczmq -lzmq
 
 $(NAME)	:	$(OBJ)
 		$(CC) $(SRC) -o $(NAME) $(CFLAGS) $(LDFLAGS)
