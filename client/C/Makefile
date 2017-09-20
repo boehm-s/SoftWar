@@ -1,16 +1,15 @@
 CC	=	gcc
 NAME	=	SoftWar
 
-SRC	=	init.c	\
-		main.c
+SRC	=	main.c
 
 OBJ	=	$(SRC:%.c=%.o)
 
 RM	=	rm -Rf
 
-GCFLAGS  =	gcc -W -Wall -Werror -Wextra -ansi -pedantic
+GCFLAGS  =	gcc -W -Wall -Werror -Wextra -pedantic
 
-LDFLAGS =	-lzlog -lczmq -lzmq
+LDFLAGS =	-lczmq -lzmq
 
 $(NAME)	:	$(OBJ)
 		$(CC) $(SRC) -o $(NAME) $(CFLAGS) $(LDFLAGS)

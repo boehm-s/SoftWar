@@ -1,5 +1,5 @@
-#ifndef _PARSE_ARG_
-#define _PARSE_ARG_
+#ifndef _INIT_
+#define _INIT_
 
 #include <argp.h>
 #include "zlog.h"
@@ -18,4 +18,4 @@ struct argp		get_argp();
 struct arguments	init_args(int argc, char *argv[]);
 zlog_category_t		*init_log();
 
-#endif /* !_PARSE_ARG_ */
+#endif /* !_INIT_ */

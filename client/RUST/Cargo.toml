@@ -1,0 +1,10 @@
+[package]
+name = "client"
+version = "0.1.0"
+authors = ["Steven BOEHM <boehm_s@etna-alternance.net>"]
+
+[dependencies]
+
+[dependencies.zmq]
+version = "0.8.2"
+default-features = false
