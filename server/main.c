@@ -22,8 +22,6 @@ int		        main(int argc, char *argv[]) {
   zthread_fork(ctx, publisher_thread, &arguments.pub_port);
   zthread_fork(ctx, responder_thread, &arguments.rep_port);
 
-
-
   while (2 != state) {
     if (1 == state) {
 
