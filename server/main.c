@@ -1,10 +1,12 @@
 #include "includes/util.h"
 #include "includes/init.h"
 #include "includes/server.h"
+#include "includes/game.h"
 
 int		        main(int argc, char *argv[]) {
 
   struct arguments	arguments = init_args(argc, argv);
+  t_game_info		*game_info = init_game(&arguments);
   zctx_t		*ctx = zctx_new ();
   zlog_category_t	*c;
   int			state = 0;
@@ -26,6 +28,8 @@ int		        main(int argc, char *argv[]) {
     if (1 == state) {
 
     }
+
+    zclock_sleep(arguments.cycle_ms);
   }
 
   puts (" interrupted");

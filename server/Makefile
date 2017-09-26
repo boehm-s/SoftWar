@@ -2,6 +2,7 @@ CC	=	gcc
 NAME	=	SoftWar
 
 SRC	=	init.c		\
+		game.c		\
 		server.c	\
 		main.c
 
