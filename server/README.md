@@ -34,3 +34,18 @@ cd czmq
 sudo make install
 sudo ldconfig
 ```
+#### /!\ Need to install older version of zmq / czmq to have context /!\
+
+### Installing collectc
+
+```
+git clone https://github.com/srdja/Collections-C
+cd Collections-C/
+mkdir build
+cd build/
+cmake ..
+make
+make test
+sudo make install
+sudo ldconfig
+```
