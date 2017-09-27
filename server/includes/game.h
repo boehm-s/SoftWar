@@ -20,7 +20,7 @@ typedef struct s_game_info {
   unsigned int	map_size;
   unsigned int	game_status;
   Array		*players;
-  Array		*energy_cells;
+  Array		*map;
 } t_game_info;
 
 typedef struct s_player {

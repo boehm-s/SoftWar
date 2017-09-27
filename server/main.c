@@ -7,7 +7,7 @@ int		        main(int argc, char *argv[]) {
 
   struct arguments	arguments = init_args(argc, argv);
   t_game_info		*game_info = init_game(&arguments);
-  zctx_t		*ctx = zctx_new ();
+  zctx_t		*ctx = zctx_new();
   zlog_category_t	*c;
   int			state = 0;
 
@@ -24,7 +24,7 @@ int		        main(int argc, char *argv[]) {
 
   while (2 != state) {
     if (1 == state) {
-
+      UNUSED(game_info);
     }
 
     zclock_sleep(arguments.cycle_ms);
