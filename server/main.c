@@ -19,15 +19,18 @@ int		        main(int argc, char *argv[]) {
 
   zlog_fini();
 
-  zthread_fork(ctx, publisher_thread, &arguments.pub_port);
-  zthread_fork(ctx, responder_thread, &arguments.rep_port);
+  zthread_fork(ctx, publisher_thread, game_info);
+  zthread_fork(ctx, responder_thread, game_info);
 
-  while (2 != state) {
+  while (20 != state) {
     if (1 == state) {
       UNUSED(game_info);
     }
 
-    zclock_sleep(arguments.cycle_ms);
+    state++;
+    game_info->game_status++;
+    printf("loop ... %i\n", game_info->game_status);
+    zclock_sleep(500);
   }
 
   puts (" interrupted");

@@ -5,6 +5,8 @@ t_game_info	*init_game(struct arguments *arguments) {
   t_game_info	*game_info = malloc(sizeof(t_game_info));
   int		i;
 
+
+  game_info->args = arguments;
   game_info->map_size = arguments->map_size;
   game_info->game_status = 0;
 

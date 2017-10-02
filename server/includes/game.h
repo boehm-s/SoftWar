@@ -17,10 +17,11 @@ typedef struct s_notif {
 } t_notif;
 
 typedef struct s_game_info {
-  unsigned int	map_size;
-  unsigned int	game_status;
-  Array		*players;
-  Array		*map;
+  unsigned int		map_size;
+  unsigned int		game_status;
+  Array			*players;
+  Array			*map;
+  struct arguments	*args;
 } t_game_info;
 
 typedef struct s_player {
