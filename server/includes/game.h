@@ -2,6 +2,7 @@
 #define _GAME_
 
 #include <collectc/array.h>
+#include <czmq.h>
 
 enum notif_type {
   cycle_info,
@@ -39,5 +40,6 @@ typedef struct s_enegry_cell {
 } t_energy_cell;
 
 t_game_info	*init_game(struct arguments *arguments);
+void		handle_request(char *id, char *content, zframe_t *res_frame);
 
 #endif /* !_GAME_ */

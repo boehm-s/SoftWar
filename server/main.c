@@ -9,7 +9,6 @@ int		        main(int argc, char *argv[]) {
   t_game_info		*game_info = init_game(&arguments);
   zctx_t		*ctx = zctx_new();
   zlog_category_t	*c;
-  int			state = 0;
 
   if (NULL == (c = init_log())) return -1;
 
@@ -22,19 +21,16 @@ int		        main(int argc, char *argv[]) {
   zthread_fork(ctx, publisher_thread, game_info);
   zthread_fork(ctx, responder_thread, game_info);
 
-  while (20 != state) {
-    if (1 == state) {
+  while (2 != game_info->game_status) {
+    if (1 == game_info->game_status) {
       UNUSED(game_info);
     }
 
-    state++;
-    game_info->game_status++;
-    printf("loop ... %i\n", game_info->game_status);
+    printf("Game Status ... %i\n", game_info->game_status);
     zclock_sleep(500);
   }
 
   puts (" interrupted");
   zctx_destroy (&ctx);
-
   return (0);
 }

@@ -21,7 +21,7 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
     /* 	break; */
 
     zstr_sendf(publisher, "-- %s + %i", "houhou", game_info->game_status);
-    zclock_sleep(500);
+    zclock_sleep(100);
   }
 }
 
@@ -32,21 +32,22 @@ void	        responder_thread(void *args, zctx_t *ctx, void *pipe) {
   t_game_info	*game_info = (t_game_info *) args;
 
   zsocket_bind (responder, "tcp://*:%i", ((struct arguments*) game_info->args)->rep_port);
-  UNUSED(args);
   UNUSED(pipe);
 
   while (!zctx_interrupted) {
-    zmsg_t *msg = zmsg_recv(responder);
-
-    zframe_t *id = zmsg_pop(msg);
-    zframe_t *empty = zmsg_pop(msg);
-    zframe_t *content = zmsg_pop(msg);
-    zmsg_t *response = zmsg_new();
+    zmsg_t	*msg = zmsg_recv(responder);
+    zframe_t	*id = zmsg_pop(msg);
+    zframe_t	*empty = zmsg_pop(msg);
+    zframe_t	*content = zmsg_pop(msg);
+    char	*str_content = zframe_strdup(content);
+    char	*str_id = zframe_strdup(id);
+    zmsg_t	*response = zmsg_new();
 
     zmsg_destroy(&msg);
     printf("Content of message is : %s\n", zframe_strdup(content));
-    sleep(1);
 
+    /* content is used as a response frame */
+    handle_request(str_id, str_content, content);
 
     zmsg_prepend(response, &id);
     zmsg_append(response, &empty);

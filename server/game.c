@@ -1,4 +1,5 @@
 #include "includes/init.h"
+#include "includes/util.h"
 #include "includes/game.h"
 
 t_game_info	*init_game(struct arguments *arguments) {
@@ -29,4 +30,14 @@ t_game_info	*init_game(struct arguments *arguments) {
   }
 
   return (game_info);
+}
+
+
+void		handle_request(char *id, char *content, zframe_t *res_frame) {
+  char		*cmd = strtok(content, "|");
+  char		*cmd_args = strtok(NULL, "|");
+
+  UNUSED(res_frame);
+  UNUSED(cmd_args);
+  printf("ID: %s\nCOMMAND : %s\n", id, cmd);
 }
