@@ -2,6 +2,26 @@
 #include "includes/util.h"
 #include "includes/game.h"
 
+static t_command	commands_tab[] = {
+  {"identity",	&identity},
+  {"forward",	&forward},
+  {"backward",	&backward},
+  {"leftwd",	&leftwd},
+  {"rightwd",	&rightwd},
+  {"left",	&left},
+  {"right",	&right},
+  {"looking",	&looking},
+  {"gather",	&gather},
+  {"watch",	&watch},
+  {"attack",	&attack},
+  {"selfid",	&selfid},
+  {"selfstats", &selfstats},
+  {"inspect",	&inspect},
+  {"next",	&next},
+  {"jump",	&jump},
+  {NULL, NULL}
+};
+
 t_game_info	*init_game(struct arguments *arguments) {
   t_game_info	*game_info = malloc(sizeof(t_game_info));
   int		i;
@@ -23,9 +43,10 @@ t_game_info	*init_game(struct arguments *arguments) {
     cell.y = (i % game_info->map_size);
     cell.value = 0;
 
-     status = array_add(game_info->map, &cell);
+    status = array_add(game_info->map, &cell);
 
     if (CC_OK != status)
+
       return NULL;
   }
 
@@ -33,11 +54,17 @@ t_game_info	*init_game(struct arguments *arguments) {
 }
 
 
-void		handle_request(char *id, char *content, zframe_t *res_frame) {
+void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *res_frame) {
   char		*cmd = strtok(content, "|");
   char		*cmd_args = strtok(NULL, "|");
+  int		i = 0;
 
   UNUSED(res_frame);
   UNUSED(cmd_args);
-  printf("ID: %s\nCOMMAND : %s\n", id, cmd);
+  while (NULL != commands_tab[i].cmd) {
+    if (strcmp(cmd, commands_tab[i].cmd) == 0) {
+      commands_tab[i].fn(game_info, id, cmd_args);
+      printf("ID: %s\nCOMMAND : %s\n", id, cmd);
+    }
+  }
 }

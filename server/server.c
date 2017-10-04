@@ -47,7 +47,7 @@ void	        responder_thread(void *args, zctx_t *ctx, void *pipe) {
     printf("Content of message is : %s\n", zframe_strdup(content));
 
     /* content is used as a response frame */
-    handle_request(str_id, str_content, content);
+    handle_request(game_info, str_id, str_content, content);
 
     zmsg_prepend(response, &id);
     zmsg_append(response, &empty);

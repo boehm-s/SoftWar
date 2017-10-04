@@ -25,7 +25,7 @@ typedef struct s_game_info {
   struct arguments	*args;
 } t_game_info;
 
-typedef struct s_player {
+typedef struct	s_player {
   char		*name;
   unsigned int	x;
   unsigned int	y;
@@ -33,13 +33,37 @@ typedef struct s_player {
   unsigned int	looking;
 } t_player;
 
-typedef struct s_enegry_cell {
+typedef struct	s_enegry_cell {
   unsigned int	x;
   unsigned int	y;
   unsigned int	value;
 } t_energy_cell;
 
+typedef struct	s_command {
+  char		*cmd;
+  int		(*fn)(t_game_info *game_info, char *id, char *args);
+} t_command;
+
 t_game_info	*init_game(struct arguments *arguments);
-void		handle_request(char *id, char *content, zframe_t *res_frame);
+void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *res_frame);
+int		cmp_players_name(const void *el, const void *player2);
+
+int		identity(t_game_info *game_info, char *id, char *args);
+int		forward(t_game_info *game_info, char *id, char *args);
+int		backward(t_game_info *game_info, char *id, char *args);
+int		leftwd(t_game_info *game_info, char *id, char *args);
+int		rightwd(t_game_info *game_info, char *id, char *args);
+int	        left(t_game_info *game_info, char *id, char *args);
+int	        right(t_game_info *game_info, char *id, char *args);
+int	        looking(t_game_info *game_info, char *id, char *args);
+int	        gather(t_game_info *game_info, char *id, char *args);
+int	        watch(t_game_info *game_info, char *id, char *args);
+int	        attack(t_game_info *game_info, char *id, char *args);
+int	        selfid(t_game_info *game_info, char *id, char *args);
+int	        selfstats(t_game_info *game_info, char *id, char *args);
+int	        inspect(t_game_info *game_info, char *id, char *args);
+int	        next(t_game_info *game_info, char *id, char *args);
+int	        jump(t_game_info *game_info, char *id, char *args);
+
 
 #endif /* !_GAME_ */

@@ -3,6 +3,7 @@ NAME	=	SoftWar
 
 SRC	=	init.c		\
 		game.c		\
+		game_commands.c	\
 		server.c	\
 		main.c
 
