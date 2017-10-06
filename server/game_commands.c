@@ -12,16 +12,19 @@ int		cmp_players_name(const void *el, const void *player2) {
 int		identity(t_game_info *game_info, char *id, char *args) {
   t_player	*player = malloc(sizeof(t_player));
   size_t	player_length;
+  enum cc_stat	status;
 
   UNUSED(args);
-  if (0 != array_contains_value(game_info->players, id, &cmp_players_name))
+  player_length = array_size(game_info->players);
+
+  if (0 != array_contains_value(game_info->players, id, &cmp_players_name)
+      || 4 <= player_length)
     return 1;
 
   player->name = id;
   player->energy = 50;
   player->looking = 0;
 
-  player_length = array_size(game_info->players);
   if (0 == player_length % 2) {
     player->x = 0;
     player->y = player_length < 2 ? 0 : game_info->map_size;
@@ -29,7 +32,10 @@ int		identity(t_game_info *game_info, char *id, char *args) {
     player->x = player_length < 2 ? 0 : game_info->map_size;
     player->y = 0;
   }
-  return 0;
+
+  status = array_add(game_info->players, player);
+
+  return status == CC_OK ? 0 : 1;
 }
 
 int		forward(t_game_info *game_info, char *id, char *args) {

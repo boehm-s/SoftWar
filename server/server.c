@@ -9,10 +9,8 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
   t_game_info	*game_info = (t_game_info *) args;
 
   zsocket_bind (publisher, "tcp://*:%i", ((struct arguments*) game_info->args)->pub_port);
-  UNUSED(args);
   UNUSED(pipe);
 
-    printf("PORT NUMBER PUBLISHER : %i\n", ((struct arguments*) game_info->args)->pub_port);
 
   while (!zctx_interrupted) {
     /* char msg[1024]; */
@@ -20,7 +18,9 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
     /* if (!fgets(msg, 1024, stdin)) */
     /* 	break; */
 
-    zstr_sendf(publisher, "-- %s + %i", "houhou", game_info->game_status);
+    char *json_game_info = game_info_to_JSON(game_info);
+
+    zstr_sendf(publisher, "{game_info: %s}", json_game_info);
     zclock_sleep(100);
   }
 }
