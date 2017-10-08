@@ -66,26 +66,45 @@ void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *
       commands_tab[i].fn(game_info, id, cmd_args);
       printf("ID: %s\nCOMMAND : %s\n", id, cmd);
     }
+    i++;
   }
 }
 
 char		*game_info_to_JSON(t_game_info *game_info) {
-  /* char		*buf; */
-  /* size_t        sz; */
+  char		*buf = malloc(1);
+  char		**infos;
   int		i;
   size_t        player_length = array_size(game_info->players);
 
+  infos = malloc(sizeof(char *) * (player_length + 1));
+  *buf = '\0';
   for (i = 0; i < (int) player_length; i++) {
-    int sz = 5 + 11;
-    char *str = malloc(sizeof(char) * sz);
-    t_player *player;
-    array_get_at(game_info->players, i, (void *)&player);
-    snprintf(str, sz + 1, "{\"name\":\"%s\"}", player->name);
+    t_player	*player;
+    char	*str;
 
-    /* int str_size =  (5+10+10+3+1) + 52; */
-    /* char *json_str = malloc(sizeof(char) * str_size); */
-    /* snprintf(json_str, str_size + 1, "{\"name\": \"%s\",\"x\":\"%i\",\"y\":\"%i\",\"energy\":\"%i\",\"looking\":\"%i\"}", game_info->players->buffer[i]->name, game_info->players->buffer[i]->x, game_info->players->buffer[i]->y, game_info->players->buffer[i]->energy, game_info->players->buffer[i]->looking); */
-    /* printf("JSON : %s\n", json_str); */
+    array_get_at(game_info->players, i, (void *)&player);
+    str = malloc(sizeof(char) * (50 + 5 + 10 + 10 + 3 + 1 + 1));
+    sprintf(str, "{\"name\":\"%s\",\"x\":\"%i\",\"y\":\"%i\",\"energy\":\"%i\",\"looking\":\"%i\"}", player->name, player->x, player->x, player->energy, player->looking);
+    infos[i] = str;
   }
-  return "coucou";
+
+  for (i = 0; i < (int) player_length; i++) {
+    int		new_size;
+    char	*tmp;
+
+    new_size = strlen(infos[i]) + strlen(buf) + 3;
+    tmp = realloc(buf, new_size);
+    if (!tmp) return "{}";
+    buf = tmp;
+
+    if (0 == i && 1 != (int) player_length)
+      sprintf(buf, "[%s,", infos[i]);
+    else if (i == ((int) player_length - 1) && 0 != i)
+      sprintf(buf, "%s%s]", buf, infos[i]);
+    else if (1 != (int) player_length)
+      sprintf(buf, "%s%s,", buf, infos[i]);
+    else
+      sprintf(buf, "[%s]", infos[i]);
+  }
+  return buf;
 }

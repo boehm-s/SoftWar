@@ -1,10 +1,19 @@
+#include <signal.h>
 #include "includes/util.h"
 #include "includes/init.h"
 #include "includes/server.h"
 #include "includes/game.h"
 
-int		        main(int argc, char *argv[]) {
 
+volatile sig_atomic_t stop;
+
+void inthand(int signum) {
+  UNUSED(signum);
+  printf("CONTROL C\n");
+  stop = 1;
+}
+
+int		        main(int argc, char *argv[]) {
   struct arguments	arguments = init_args(argc, argv);
   t_game_info		*game_info = init_game(&arguments);
   zctx_t		*ctx = zctx_new();
@@ -21,7 +30,8 @@ int		        main(int argc, char *argv[]) {
   zthread_fork(ctx, publisher_thread, game_info);
   zthread_fork(ctx, responder_thread, game_info);
 
-  while (2 != game_info->game_status) {
+  signal(SIGINT, inthand);
+  while (2 != game_info->game_status && !stop) {
     if (1 == game_info->game_status) {
       UNUSED(game_info);
     }
@@ -30,7 +40,7 @@ int		        main(int argc, char *argv[]) {
     zclock_sleep(500);
   }
 
-  puts (" interrupted");
+  puts(" interrupted");
   zctx_destroy (&ctx);
   return (0);
 }
