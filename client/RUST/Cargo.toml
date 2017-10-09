@@ -1,3 +1,4 @@
+
 [package]
 name = "client"
 version = "0.1.0"
@@ -5,7 +6,17 @@ authors = ["Steven BOEHM <boehm_s@etna-alternance.net>"]
 
 [dependencies]
 rand = "*"
+piston_window = "0.70.0"
 
 [dependencies.zmq]
 version = "0.8.2"
 default-features = false
+
+[replace."rusttype:0.2.3"]
+git = "https://github.com/boehm-s/rusttype"
+rev = "a23d33a"
+default-features = false
+
+[features]
+default = []
+sort_unstable = []
