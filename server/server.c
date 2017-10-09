@@ -20,7 +20,7 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
 
     char *json_game_info = game_info_to_JSON(game_info);
 
-    zstr_sendf(publisher, "{game_info: %s}", json_game_info);
+    zstr_sendf(publisher, "{\"game_info\": %s}", json_game_info);
     zclock_sleep(100);
   }
 }

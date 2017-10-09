@@ -45,9 +45,13 @@ typedef struct	s_command {
 } t_command;
 
 t_game_info	*init_game(struct arguments *arguments);
-char		*game_info_to_JSON(t_game_info *game_info);
 void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *res_frame);
 int		cmp_players_name(const void *el, const void *player2);
+
+char		*players_to_JSON(Array *players);
+char		*map_to_JSON(Array *map);
+char		*game_info_to_JSON(t_game_info *game_info);
+
 
 int		identity(t_game_info *game_info, char *id, char *args);
 int		forward(t_game_info *game_info, char *id, char *args);
