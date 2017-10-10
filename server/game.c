@@ -36,17 +36,16 @@ t_game_info	*init_game(struct arguments *arguments) {
     return NULL;
 
   for (i = 0; i < (int) (game_info->map_size * game_info->map_size); i++) {
-    t_energy_cell cell;
+    t_energy_cell *cell = malloc(sizeof(t_energy_cell *));
     enum cc_stat status;
 
-    cell.x = ((i/game_info->map_size) % game_info->map_size);
-    cell.y = (i % game_info->map_size);
-    cell.value = 0;
+    cell->x = ((i/game_info->map_size) % game_info->map_size);
+    cell->y = (i % game_info->map_size);
+    cell->value = 0;
 
-    status = array_add(game_info->map, &cell);
+    status = array_add(game_info->map, cell);
 
     if (CC_OK != status)
-
       return NULL;
   }
 
