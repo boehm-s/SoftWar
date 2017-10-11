@@ -1,2 +1,0 @@
-error: Could not create LLVM TargetMachine for triple: wasm32-unknown-unknown: No available targets are compatible with this triple.
-
