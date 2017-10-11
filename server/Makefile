@@ -35,6 +35,6 @@ fclean	:	clean
 re	:	fclean all
 
 run	:
-		./SoftWar -v --size=8 --log=/tmp/soft_war.log --cycle=1000000 --rep-port=515 --pub-port=1921
+		./SoftWar -v --size=8 --log=/tmp/soft_war.log --cycle=1000000 --pub-port=4242 --rep-port=4243
 
 .PHONY	:	all clean fclean re run
