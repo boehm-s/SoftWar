@@ -1,0 +1,1 @@
+{"rustc":808208092565740638,"features":"[]","target":14332666895141962688,"profile":731176819336294830,"deps":[["rand v0.3.17",16958696630941109628],["zmq v0.8.2",6671909785715642911]],"local":[{"MtimeBased":[[1507730780,4414166],"/home/boehm-s/ETNA/SoftWar/client/RUST/target/debug/.fingerprint/client-f7b14a1cfc639eb8/dep-lib-client-f7b14a1cfc639eb8"]}],"rustflags":[]}
