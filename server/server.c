@@ -20,7 +20,7 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
 
     char *json_game_info = game_info_to_JSON(game_info);
 
-    zstr_sendf(publisher, "{game_info: %s}", json_game_info);
+    zstr_sendf(publisher, "{\"game_info\": %s}", json_game_info);
     zclock_sleep(100);
   }
 }
@@ -35,6 +35,7 @@ void	        responder_thread(void *args, zctx_t *ctx, void *pipe) {
   UNUSED(pipe);
 
   while (!zctx_interrupted) {
+    zframe_t	*response_content;
     zmsg_t	*msg = zmsg_recv(responder);
     zframe_t	*id = zmsg_pop(msg);
     zframe_t	*empty = zmsg_pop(msg);
@@ -47,11 +48,11 @@ void	        responder_thread(void *args, zctx_t *ctx, void *pipe) {
     printf("Content of message is : %s\nID is : %s\n", zframe_strdup(content), str_id);
 
     /* content is used as a response frame */
-    handle_request(game_info, str_id, str_content, content);
+    response_content = handle_request(game_info, str_id, str_content);
 
     zmsg_prepend(response, &id);
     zmsg_append(response, &empty);
-    zmsg_append(response, &content);
+    zmsg_append(response, &response_content);
 
     zmsg_send(&response, responder);
     zmsg_destroy(&response);
