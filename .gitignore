@@ -52,8 +52,6 @@ Mkfile.old
 dkms.conf
 
 
-
-
 # Node.js
 logs
 *.log
@@ -80,3 +78,7 @@ typings/
 *.tgz
 .yarn-integrity
 .env
+
+# RUST
+Cargo.lock
+target/
