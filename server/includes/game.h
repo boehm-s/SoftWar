@@ -45,7 +45,7 @@ typedef struct	s_command {
 } t_command;
 
 t_game_info	*init_game(struct arguments *arguments);
-void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *res_frame);
+zframe_t        *handle_request(t_game_info *game_info, char *id, char *content);
 int		cmp_players_name(const void *el, const void *player2);
 
 char		*players_to_JSON(Array *players);

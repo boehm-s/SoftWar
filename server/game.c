@@ -1,6 +1,7 @@
 #include "includes/init.h"
 #include "includes/util.h"
 #include "includes/game.h"
+#include "includes/server.h"
 
 static t_command	commands_tab[] = {
   {"identity",	&identity},
@@ -53,7 +54,8 @@ t_game_info	*init_game(struct arguments *arguments) {
 }
 
 
-void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *res_frame) {
+zframe_t		*handle_request(t_game_info *game_info, char *id, char *content) {
+  zframe_t      *res_frame;
   char		*cmd = strtok(content, "|");
   char		*cmd_args = strtok(NULL, "|");
   int		i = 0;
@@ -67,4 +69,7 @@ void		handle_request(t_game_info *game_info, char *id, char *content, zframe_t *
     }
     i++;
   }
+
+  res_frame = zframe_new("OK", 2);
+  return res_frame;
 }
