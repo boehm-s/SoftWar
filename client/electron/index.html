@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Softwar</title>
     <style>
-     .cell {
+     .c {
        height: 50px;
        width: 50px;
        background: #DEDEDE;
@@ -13,7 +13,7 @@
        align-items: center;
        justify-content: center;
      }
-     .player-legend-point {
+     .plp {
        display: inline-block;
        height: 10px;
        width: 10px;
@@ -33,62 +33,59 @@
     </div><br/>
     <div id="players-legend">
     </div>
+
     <script>
       // You can also require other files to run in this process
      const {req_socket, sub_socket} = require('./renderer.js');
-     const mapDiv = document.getElementById('map');
-     const playersLegendDiv = document.getElementById('players-legend');
-     const START = document.getElementById('start');
      const playerColors = ["#F00", "#0F0", "#00F", "#FF0"];
+
+     let READY = false;
+     let FLAG = "";
      let gameInfo;
-     let old_game = "";
 
-     const legendPlayers = players => {
-       players.forEach((player, i) => {
-	 var playerLegend = document.createElement('div');
-	 playerLegend.id = player.name;
-	 playerLegend.classList.add('player-legend');
-	 playerLegend.innerHTML = '<div class="player-legend-point" style="background:'+ playerColors[i] +'"></div>' + player.name;
+     const placePlayers = (ctx, pInfos) => pInfos.forEach((p, i) => ctx.getElementById(`${p.x}-${p.y}`).innerHTML += `<div class="plp" style="background:${playerColors[i]}"></div>`);
 
-	 playersLegendDiv.appendChild(playerLegend);
+     const buildPlayerLegend = (player, i, arr) => ` <div id="${player.name}" class="pl"> <div class="plp" style="background:${playerColors[i]}"></div> ${player.name}</div>`;
+     const buildPlayersLegends = (playersLegendDiv, playersInfo) => playersLegendDiv.innerHTML = playersInfo.map(buildPlayerLegend).join('');
 
-       });
-     }
+     const buildCell = (c, _, arr)	=> c.y == (Math.sqrt(arr.length) - 1) ? `<div class="c" id="${c.x}-${c.y}">${c.value}</div><br/>` : `<div class="c" id="${c.x}-${c.y}">${c.value}</div>`;
+     const buildMap = (mapDiv, mapInfo) => mapDiv.innerHTML = mapInfo.map(buildCell).join('');
 
-     const buildCell = (cell, i, arrCell) => {
-       var cellEl = document.createElement('div');
-       cellEl.id = cell.x + '-' + cell.y;
-       cellEl.classList.add('cell');
-       cellEl.innerHTML = cell.value;
+     const buildGame = (ctx, gameInfo) => {
+       const playersLegendDiv	= ctx.getElementById('players-legend');
+       const startButton	= ctx.getElementById('start');
 
-       mapDiv.appendChild(cellEl);
-       if (cell.y == (Math.sqrt(arrCell.length) - 1)) {
-	 mapDiv.appendChild(document.createElement('br'));
-       }
-     }
-
-     const buildMap = map => map.forEach(buildCell);
-
-     const startGame = (startButton, gameInfo) => {
        startButton.parentNode.removeChild(startButton);
-       buildMap(gameInfo.map);
-       legendPlayers(gameInfo.players);
-       /* placePlayers(gameInfo.players);*/
+       buildPlayersLegends(playersLegendDiv, gameInfo.players);
      };
+
+     const refreshGame = (ctx, gameInfo) => {
+       const mapDiv = ctx.getElementById('map');
+
+       if (!ctx.getElementById('players-legend').children.length)
+	 buildGame(ctx, gameInfo);
+
+       mapDiv.innerHTML = "";
+       buildMap(mapDiv, gameInfo.map);
+       placePlayers(ctx, gameInfo.players);
+     };
+
+     const waitGame = (mapDiv, gameInfo) => mapDiv.innerHTML = "Waiting for players ... <br> Players number : " + gameInfo.players.length;
 
      /* click and start the game*/
-     start.onclick = e => {
-       req_socket.send('identity|' + req_socket.identity);
-       if (gameInfo)
-	 startGame(START, gameInfo);
-     };
+     start.onclick = _ => req_socket.send('identity|' + req_socket.identity, 0, _ => FLAG = READY ? '' : 'wait');
 
      /* socket broadcast*/
-     sub_socket.on('message', (topic, message) => {
+     sub_socket.on('message', topic => {
        gameInfo = JSON.parse(topic.toString()).game_info;
-       if (topic.toString() !== old_game)
-	 console.log(gameInfo);
-       old_game = topic.toString();
+       if (4 === gameInfo.players.length)
+	 READY = true;
+
+       if ('wait' == FLAG)
+	 waitGame(document.getElementById('map'), gameInfo);
+
+       if (READY)
+	 refreshGame(document, gameInfo);
      });
 
     </script>

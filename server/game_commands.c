@@ -1,7 +1,6 @@
 #include "includes/util.h"
 #include "includes/game.h"
 
-
 int		cmp_players_name(const void *el, const void *player2) {
   int		i;
 
@@ -27,10 +26,10 @@ int		identity(t_game_info *game_info, char *id, char *args) {
 
   if (0 == player_length % 2) {
     player->x = 0;
-    player->y = player_length < 2 ? 0 : game_info->map_size;
+    player->y = player_length < 2 ? 0 : (game_info->map_size - 1);
   } else {
-    player->x = player_length < 2 ? 0 : game_info->map_size;
-    player->y = 0;
+    player->x = (game_info->map_size - 1);
+    player->y = player_length < 2 ? 0 : (game_info->map_size - 1);
   }
 
   status = array_add(game_info->players, player);
