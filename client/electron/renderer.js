@@ -14,8 +14,8 @@ const genID = () => {
 	: '#0x' + str;
 };
 
-req_socket.connect('tcp://127.0.0.1:4243');
 req_socket.identity = genID();
+req_socket.connect('tcp://127.0.0.1:4243');
 sub_socket.connect('tcp://127.0.0.1:4242');
 sub_socket.subscribe('');
 

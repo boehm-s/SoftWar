@@ -3,6 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <title>Softwar</title>
+    <style>
+     .cell {
+       height: 50px;
+       width: 50px;
+       background: #DEDEDE;
+       margin: 2px;
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+     }
+     .player-legend-point {
+       display: inline-block;
+       height: 10px;
+       width: 10px;
+       margin-right: 7px;
+     }
+    </style>
   </head>
   <body>
     <h1>Softwar</h1>
@@ -12,21 +29,68 @@
     </button>
     <div id="map">
     </div>
+    <div id="players">
+    </div><br/>
+    <div id="players-legend">
+    </div>
     <script>
       // You can also require other files to run in this process
      const {req_socket, sub_socket} = require('./renderer.js');
-     const map = document.getElementById('map');
+     const mapDiv = document.getElementById('map');
+     const playersLegendDiv = document.getElementById('players-legend');
      const START = document.getElementById('start');
+     const playerColors = ["#F00", "#0F0", "#00F", "#FF0"];
+     let gameInfo;
+     let old_game = "";
 
+     const legendPlayers = players => {
+       players.forEach((player, i) => {
+	 var playerLegend = document.createElement('div');
+	 playerLegend.id = player.name;
+	 playerLegend.classList.add('player-legend');
+	 playerLegend.innerHTML = '<div class="player-legend-point" style="background:'+ playerColors[i] +'"></div>' + player.name;
+
+	 playersLegendDiv.appendChild(playerLegend);
+
+       });
+     }
+
+     const buildCell = (cell, i, arrCell) => {
+       var cellEl = document.createElement('div');
+       cellEl.id = cell.x + '-' + cell.y;
+       cellEl.classList.add('cell');
+       cellEl.innerHTML = cell.value;
+
+       mapDiv.appendChild(cellEl);
+       if (cell.y == (Math.sqrt(arrCell.length) - 1)) {
+	 mapDiv.appendChild(document.createElement('br'));
+       }
+     }
+
+     const buildMap = map => map.forEach(buildCell);
+
+     const startGame = (startButton, gameInfo) => {
+       startButton.parentNode.removeChild(startButton);
+       buildMap(gameInfo.map);
+       legendPlayers(gameInfo.players);
+       /* placePlayers(gameInfo.players);*/
+     };
+
+     /* click and start the game*/
+     start.onclick = e => {
+       req_socket.send('identity|' + req_socket.identity);
+       if (gameInfo)
+	 startGame(START, gameInfo);
+     };
+
+     /* socket broadcast*/
      sub_socket.on('message', (topic, message) => {
-       console.log('containing message:' + topic.toString());
+       gameInfo = JSON.parse(topic.toString()).game_info;
+       if (topic.toString() !== old_game)
+	 console.log(gameInfo);
+       old_game = topic.toString();
      });
 
-     start.onclick = e => {
-       console.log('id : ' + req_socket.identity);
-       console.log(req_socket.send);
-       req_socket.send('identity|nope', socket => {console.log(socket);});
-     };
     </script>
   </body>
 </html>
