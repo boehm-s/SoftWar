@@ -73,3 +73,16 @@ zframe_t		*handle_request(t_game_info *game_info, char *id, char *content) {
   res_frame = zframe_new("OK", 2);
   return res_frame;
 }
+
+
+void		cycle_game(t_game_info *game_info) {
+  overflow_cell(game_info);
+}
+
+void		*overflow_cell(t_game_info *game_info) {
+  int		x = rand() % game_info->map_size;
+  int		y = rand() % game_info->map_size;
+  int		val = (rand() % (15 + 1 - 5)) + 5;
+
+
+}

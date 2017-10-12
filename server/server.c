@@ -13,19 +13,14 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
 
 
   while (!zctx_interrupted) {
-    /* char msg[1024]; */
+    char *json_game_info;
 
-    /* if (!fgets(msg, 1024, stdin)) */
-    /* 	break; */
-
-    char *json_game_info = game_info_to_JSON(game_info);
-
+    cycle_game(game_info);
+    json_game_info = game_info_to_JSON(game_info);
     zstr_sendf(publisher, "{\"game_info\": %s}", json_game_info);
-    zclock_sleep(100);
+    zclock_sleep(game_info->args->cycle_ms);
   }
 }
-
-/* pass game_info and players to this thread*/
 
 void	        responder_thread(void *args, zctx_t *ctx, void *pipe) {
   void		*responder = zsocket_new(ctx, ZMQ_ROUTER);

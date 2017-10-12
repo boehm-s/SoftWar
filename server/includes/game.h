@@ -45,6 +45,8 @@ typedef struct	s_command {
 } t_command;
 
 t_game_info	*init_game(struct arguments *arguments);
+void		cycle_game(t_game_info *game_info);
+void		*overflow_cell(t_game_info *game_info);
 zframe_t        *handle_request(t_game_info *game_info, char *id, char *content);
 int		cmp_players_name(const void *el, const void *player2);
 
