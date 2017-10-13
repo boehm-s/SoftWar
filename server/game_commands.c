@@ -34,33 +34,70 @@ int		identity(t_game_info *game_info, char *id, char *args) {
 
   status = array_add(game_info->players, player);
 
+  if (3 == player_length && status == CC_OK)
+    game_info->game_status = 1;
+
   return status == CC_OK ? 0 : 1;
 }
 
 int		forward(t_game_info *game_info, char *id, char *args) {
-  UNUSED(game_info);
-  UNUSED(id);
+  int		i;
+  size_t        players_length = array_size(game_info->players);
+
+  for (i = 0; i < (int) players_length; i++) {
+    t_player	*player;
+    array_get_at(game_info->players, i, (void *)&player);
+
+    if (0 == strcmp(player->name, id) && 0 != player->x)
+      player->x--;
+
+  }
+
   UNUSED(args);
   return 0;
 }
 
 int		backward(t_game_info *game_info, char *id, char *args) {
-  UNUSED(game_info);
-  UNUSED(id);
+  int		i;
+  size_t        players_length = array_size(game_info->players);
+
+  for (i = 0; i < (int) players_length; i++) {
+    t_player	*player;
+    array_get_at(game_info->players, i, (void *)&player);
+
+    if (0 == strcmp(player->name, id) && player->x != game_info->map_size - 1)
+      player->x++;
+  }
   UNUSED(args);
   return 0;
 }
 
-int		leftwd(t_game_info *game_info, char *id, char *args) {
-  UNUSED(game_info);
-  UNUSED(id);
+int		leftfwd(t_game_info *game_info, char *id, char *args) {
+  int		i;
+  size_t        players_length = array_size(game_info->players);
+
+  for (i = 0; i < (int) players_length; i++) {
+    t_player	*player;
+    array_get_at(game_info->players, i, (void *)&player);
+
+    if (0 == strcmp(player->name, id) && 0 != player->y)
+	player->y--;
+  }
   UNUSED(args);
   return 0;
 }
 
-int		rightwd(t_game_info *game_info, char *id, char *args) {
-  UNUSED(game_info);
-  UNUSED(id);
+int		rightfwd(t_game_info *game_info, char *id, char *args) {
+  int		i;
+  size_t        players_length = array_size(game_info->players);
+
+  for (i = 0; i < (int) players_length; i++) {
+    t_player	*player;
+    array_get_at(game_info->players, i, (void *)&player);
+
+    if (0 == strcmp(player->name, id) && player->y != game_info->map_size - 1)
+      player->y++;
+  }
   UNUSED(args);
   return 0;
 }

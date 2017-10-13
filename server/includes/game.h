@@ -46,7 +46,9 @@ typedef struct	s_command {
 
 t_game_info	*init_game(struct arguments *arguments);
 void		cycle_game(t_game_info *game_info);
-void		*overflow_cell(t_game_info *game_info);
+void		overflow_cell(t_game_info *game_info);
+void		players_cycle(t_game_info *game_info);
+
 zframe_t        *handle_request(t_game_info *game_info, char *id, char *content);
 int		cmp_players_name(const void *el, const void *player2);
 
@@ -58,8 +60,8 @@ char		*game_info_to_JSON(t_game_info *game_info);
 int		identity(t_game_info *game_info, char *id, char *args);
 int		forward(t_game_info *game_info, char *id, char *args);
 int		backward(t_game_info *game_info, char *id, char *args);
-int		leftwd(t_game_info *game_info, char *id, char *args);
-int		rightwd(t_game_info *game_info, char *id, char *args);
+int		leftfwd(t_game_info *game_info, char *id, char *args);
+int		rightfwd(t_game_info *game_info, char *id, char *args);
 int	        left(t_game_info *game_info, char *id, char *args);
 int	        right(t_game_info *game_info, char *id, char *args);
 int	        looking(t_game_info *game_info, char *id, char *args);

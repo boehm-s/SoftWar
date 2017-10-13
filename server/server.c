@@ -15,7 +15,8 @@ void	        publisher_thread(void *args, zctx_t *ctx, void *pipe) {
   while (!zctx_interrupted) {
     char *json_game_info;
 
-    cycle_game(game_info);
+    if (1 == game_info->game_status)
+      cycle_game(game_info);
     json_game_info = game_info_to_JSON(game_info);
     zstr_sendf(publisher, "{\"game_info\": %s}", json_game_info);
     zclock_sleep(game_info->args->cycle_ms);

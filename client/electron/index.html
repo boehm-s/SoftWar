@@ -27,12 +27,10 @@
     <button id="start">
       START
     </button>
-    <div id="map">
-    </div>
-    <div id="players">
-    </div><br/>
-    <div id="players-legend">
-    </div>
+    <div id="map"></div>
+    <div id="players"></div><br/>
+    <div id="players-legend"></div>
+    <div id="my-player"></div>
 
     <script>
       // You can also require other files to run in this process
@@ -48,7 +46,14 @@
      const buildPlayerLegend = (player, i, arr) => ` <div id="${player.name}" class="pl"> <div class="plp" style="background:${playerColors[i]}"></div> ${player.name}</div>`;
      const buildPlayersLegends = (playersLegendDiv, playersInfo) => playersLegendDiv.innerHTML = playersInfo.map(buildPlayerLegend).join('');
 
-     const buildCell = (c, _, arr)	=> c.y == (Math.sqrt(arr.length) - 1) ? `<div class="c" id="${c.x}-${c.y}">${c.value}</div><br/>` : `<div class="c" id="${c.x}-${c.y}">${c.value}</div>`;
+     const colorCell = (mapDiv) => {
+       Array.from(mapDiv.getElementsByClassName('c'))
+	    .forEach(cell => {
+	      let i = parseInt(cell.innerHTML);
+	      cell.setAttribute('style', `border: 1px solid #BBB; background: rgb(${255 - i}, ${255 - i}, ${255 - i})`);
+	    });
+     };
+     const buildCell = (c, _, arr) => c.y == (Math.sqrt(arr.length) - 1) ? `<div class="c" id="${c.x}-${c.y}">${c.value}</div><br/>` : `<div class="c" id="${c.x}-${c.y}">${c.value}</div>`;
      const buildMap = (mapDiv, mapInfo) => mapDiv.innerHTML = mapInfo.map(buildCell).join('');
 
      const buildGame = (ctx, gameInfo) => {
@@ -67,13 +72,14 @@
 
        mapDiv.innerHTML = "";
        buildMap(mapDiv, gameInfo.map);
+       colorCell(mapDiv);
        placePlayers(ctx, gameInfo.players);
      };
 
      const waitGame = (mapDiv, gameInfo) => mapDiv.innerHTML = "Waiting for players ... <br> Players number : " + gameInfo.players.length;
 
      /* click and start the game*/
-     start.onclick = _ => req_socket.send('identity|' + req_socket.identity, 0, _ => FLAG = READY ? '' : 'wait');
+     start.onclick = _ => req_socket.send(`identity|${req_socket.identity}`, 0, _ => FLAG = READY ? '' : 'wait');
 
      /* socket broadcast*/
      sub_socket.on('message', topic => {
@@ -87,6 +93,25 @@
        if (READY)
 	 refreshGame(document, gameInfo);
      });
+
+     document.onkeypress = (e) => {
+       e = e || window.event;
+       console.log('keypress : ' + e.keyCode);
+       switch (e.keyCode) {
+	 case 97: // a
+	   req_socket.send('leftfwd|');
+	   break;
+	 case 119: // w
+	   req_socket.send('forward|');
+	   break;
+	 case 100: // d
+	   req_socket.send('rightfwd|');
+	   break;
+	 case 115: // s
+	   req_socket.send('backward|');
+	   break;
+       }
+     };
 
     </script>
   </body>

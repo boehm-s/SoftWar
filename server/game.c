@@ -7,8 +7,8 @@ static t_command	commands_tab[] = {
   {"identity",	&identity},
   {"forward",	&forward},
   {"backward",	&backward},
-  {"leftwd",	&leftwd},
-  {"rightwd",	&rightwd},
+  {"leftfwd",	&leftfwd},
+  {"rightfwd",	&rightfwd},
   {"left",	&left},
   {"right",	&right},
   {"looking",	&looking},
@@ -77,12 +77,35 @@ zframe_t		*handle_request(t_game_info *game_info, char *id, char *content) {
 
 void		cycle_game(t_game_info *game_info) {
   overflow_cell(game_info);
+  players_cycle(game_info);
 }
 
-void		*overflow_cell(t_game_info *game_info) {
-  int		x = rand() % game_info->map_size;
-  int		y = rand() % game_info->map_size;
+void		overflow_cell(t_game_info *game_info) {
+  int		i;
+  unsigned int	x = rand() % game_info->map_size;
+  unsigned int	y = rand() % game_info->map_size;
   int		val = (rand() % (15 + 1 - 5)) + 5;
+  size_t        map_length = array_size(game_info->map);
 
+  for (i = 0; i < (int) map_length; i++) {
+    t_energy_cell	*cell;
 
+    array_get_at(game_info->map, i, (void *)&cell);
+    if (cell ->x == x && cell->y == y && (cell->value + val) <= 100)
+      cell->value += val;
+  }
+}
+
+void		players_cycle(t_game_info *game_info) {
+  int		i;
+  size_t        players_length = array_size(game_info->players);
+
+  for (i = 0; i < (int) players_length; i++) {
+    t_player	*player;
+
+    array_get_at(game_info->players, i, (void *)&player);
+    player->energy -= 2;
+    if (player->energy > 100 || player->energy <= 0)
+      player->looking = 5;
+  }
 }
