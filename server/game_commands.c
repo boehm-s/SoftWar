@@ -124,8 +124,33 @@ int	        looking(t_game_info *game_info, char *id, char *args) {
 }
 
 int	        gather(t_game_info *game_info, char *id, char *args) {
-  UNUSED(game_info);
-  UNUSED(id);
+  int		i;
+  t_player	*player;
+  t_energy_cell	*cell;
+  size_t        players_length = array_size(game_info->players);
+  size_t        map_length = array_size(game_info->map);
+
+  for (i = 0; i < (int) players_length; i++) {
+    array_get_at(game_info->players, i, (void *)&player);
+
+    if (0 == strcmp(player->name, id))
+      break;
+  } /* I've got my player */
+
+
+  for (i = 0; i < (int) map_length; i++) {
+    array_get_at(game_info->map, i, (void *)&cell);
+    if (cell->x == player->x && cell->y == player->y)
+      break;
+  } /* I've got my cell */
+
+
+  printf("player : %s - (%i:%i)\n", player->name, player->x, player->y);
+  printf("cell : %i -- (%i:%i)\n", cell->value, cell->x, cell->y);
+
+  player->energy += cell->value;
+  cell->value = 0;
+
   UNUSED(args);
   return 0;
 }

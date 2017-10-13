@@ -2,7 +2,6 @@
 #include "includes/util.h"
 #include "includes/game.h"
 
-
 char		*players_to_JSON(Array *players) {
   char		*buf = malloc(1);
   char		**infos;

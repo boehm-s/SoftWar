@@ -19,5 +19,4 @@ req_socket.connect('tcp://127.0.0.1:4243');
 sub_socket.connect('tcp://127.0.0.1:4242');
 sub_socket.subscribe('');
 
-
 module.exports = {req_socket, sub_socket};

@@ -74,5 +74,4 @@ int	        inspect(t_game_info *game_info, char *id, char *args);
 int	        next(t_game_info *game_info, char *id, char *args);
 int	        jump(t_game_info *game_info, char *id, char *args);
 
-
 #endif /* !_GAME_ */
